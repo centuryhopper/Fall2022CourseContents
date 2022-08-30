@@ -1,0 +1,40 @@
+
+Idea I:
+Training restaurant chefs via a VR cooking simulation.
+
+three key features:
+-User
+	-players need to cook with at least one arm
+
+-Scenario
+	-players need to multitask (e.g. be able to do other tasks around the kitchen in addition to cooking such as washing the dishes, mopping the floors, catering the guests)
+
+-Backend
+	-We may have multiple chefs in the kitchen doing productive work
+
+novel idea:
+-we can reverse time when let's say, something is overcooked as a way to forgive mistakes
+
+-we can also have an anti-gravity feature to prevent dropping fragile objects on the floor and spilling food and drinks
+
+required resources:
+-hardware
+	-any vr headset that works in unity will do
+-personnel
+	-at least one vr user
+-asset
+	-kitchen environment that is big enough to fit at least four players
+	-food and beverages
+
+
+
+Idea II:
+Training military soldiers via a simulation room with Multiple targets they need focus on
+
+three key features:
+-backend
+-
+
+
+
+
