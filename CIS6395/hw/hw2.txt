@@ -1,40 +1,119 @@
-(10 pts.) HTTP Sessions
+1. (10 pts.) HTTP Sessions
 For this problem, find all web servers that were visited in the trace (that is, contacted via HTTP).  Then answer:  (1). What is the total number of all web servers? (2). Submit a list of their IP addresses. (Please note that you should not try to identify HTTPS traffic)
 
- 
+Answer:
+1) filtered by "http && tcp.dstport == 80" resulted in 41 unique ip addresses (destination column)
+2) check the csv file (I got it from statistics -> Endpoints -> limit to display filter)
+34.179.163.234
+41.14.20.98
+43.40.207.224
+43.40.214.91
+43.40.222.130
+44.156.34.47
+44.156.93.198
+44.160.254.249
+45.237.242.133
+45.237.242.136
+50.7.4.102
+50.7.4.192
+50.123.132.194
+51.60.232.95
+51.160.153.127
+55.117.247.73
+55.117.247.113
+55.117.247.119
+55.120.31.89
+80.141.67.102
+80.141.192.102
+80.186.115.48
+83.53.44.213
+96.40.233.194
+96.40.233.220
+96.40.235.39
+96.42.150.141
+144.113.178.87
+144.173.165.25
+144.173.165.160
+144.173.165.161
+144.173.165.190
+146.37.61.88
+147.82.187.105
+147.126.238.118
+151.121.203.166
+151.243.109.81
+152.153.157.125
+157.67.141.79
+157.167.203.21
+157.167.203.60
+157.181.81.12
+157.181.83.44
+157.181.83.149
+172.21.191.36
+197.114.61.167
+197.249.126.226
+225.17.57.128
+236.47.252.130
 
-(15 pts.) Directory Traversal
+
+
+2. (15 pts.) Directory Traversal
 One simple way people attempt to exploit a web server is by making requests for files outside the normal directories it serves using pathnames with sequences like “../../../”. (Of course, a reasonably well-implemented web server will not fall for tricks like this.) Find a host that appears to be attempting this type of attack and submit its IP address.
 
- 
+Answer:
+After typing http contains "../" in the filter, the ip source seems to be 152.153.157.125
 
-(15 pts.) Password Guessing
+3. (15 pts.) Password Guessing
 If you’ve ever looked through the logs of an SSH server, you’ve likely seen attempts to login through brute force guessing of usernames and passwords. Of course, the same attack is possible for any type of protocol with password authentication. There is one host that attempted such an attack against a password protected FTP server. Find that host and submit the IP address of the attacker. Also answer: how many times the attacker has tried different passwords in login attempts in your trace?
 
- 
+Answer:
+1) I filtered by "ftp && (ftp contains USER || ftp contains PASS)"  ftp && (ftp contains 530)
+and found that the ip address of the attacker is 83.95.78.96
+2) I filtered by "ftp && ip.src == 83.95.78.96" and found that there are 7 attempts by this user and among these 7 attempts, 5 unique passwords (Volley, ashley, bear, calvin, "".
 
-(20 pts.) Unencrypted Usernames and Passwords
+
+4. (20 pts.) Unencrypted Usernames and Passwords
 Next, find an unencrypted username and password. Note that we are interested in a real username and password, so failed login attempts don’t count. Examples of protocols that can send usernames and passwords without encryption are Telnet, FTP in this project’s traces. List all the usernames and passwords (and their protocols) as your answer. (note that anonymous login without password will also count as successful login)
 
- 
+Answer:
 
-(15 pts.) Service Versions
+for ftp:
+final filter (below) found that there are four successful attempts
+(ip.src == 172.21.191.36 or ip.src == 80.141.232.197) and ftp matches USER or ftp matches PASS
+
+how I did it was I know that 230 is successful when I right-click and click on follow then click on tcp stream. ftp.response.code == 230 filtered for the successful transactions. Then I saw that the destination has two unique ip addresses so I derived the final filter from that.
+
+using the filter "telnet contains password || telnet contains username" there were no successful logins for telnet
+
+
+
+5. (15 pts.) Service Versions
 Finding hosts running specific versions of servers is an important step in exploiting them; in general, older versions will have more vulnerabilities. For this problem, find the host running the oldest version of Apache. (Apache is the most widely used web server on the Internet.) Don’t count “Apache-Coyote” as “Apache”; also, ignore any servers that don’t specify their version. Submit that host’s IP address.
 
- 
+Answer:
+After using the filter "http matches Apache", then using regex matching (i.e. http matches "Apache/1.3.*"), I was able to find that the oldest server (i.e. Apache/1.3.28) has an ip adddress of 96.40.233.220
 
-(15 pts.) DNS and Source Port Randomization
+6. (15 pts.) DNS and Source Port Randomization
 Most clients now select a random UDP source port when making DNS queries to help prevent the Kaminsky attack. For this problem, look for clients which do not use a random source port in their DNS queries. There are exactly two such abnormal DNS clients. As your answer to this question, submit the IP addresses of the two DNS clients that use the same source port for all their DNS queries they make (and make more than 1 query).
 
- 
+Answer:
+using the filter "dns && udp.dstport == 53"
+I found these two using the same source ports for all their DNS queries:
+-96.40.233.194
+-96.40.233.220
 
-(10 pts.) Ping Scanning
+7. (10 pts.) Ping Scanning
 ‘Ping’ program can be used to find out whether a remoter computer is online or not, or be used by attackers to do initial probing before real attacks. Identify the hosts that are running Ping in the traffic trace. Submit the list of IP addresses of the client computers that initiate Ping and the list of IP addresses of their targets.
 
+Answer: I filtered by "icmp.type == 8" (8 because that is the type under icmp that sends requests) in wireshark and the list of unique ip addresses who initiated the ping is:
+-83.39.156.1
+-172.21.191.36
+
+the list of ip addresses who are targets:
+-55.117.246.18
+-62.97.163.225
  
 
 Delivery
-
 You need to submit a report file. Besides the direct answers to the above 7 questions, you MUST also explain in each question how you derive that solution, such as: what the filter term you have used? What program or command lines you have used to analyze packet text file you saved?
 
 
