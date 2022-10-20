@@ -1,0 +1,15 @@
+hw2:
+ -4:
+  -telnet contains password || telnet contains username filter gives me some answers but im not sure if some of the data indicates a successful login
+
+ -5:
+  -I sorted the whole list in descending order by time by i'm not sure if this is correct
+
+ -6:
+  -I added a source port column and I sorted it to find which source ports are repeated the most. 53 is one of them but I am not sure about the other one.
+
+ -7:
+  -I filtered by icmp and then exported the list of source ip addresses
+
+
+
