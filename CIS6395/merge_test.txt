@@ -1,8 +1,3 @@
 from main
-<<<<<<< HEAD
 yo from linux
-=======
-yo from windows
->>>>>>> main
-
 yo from windows
